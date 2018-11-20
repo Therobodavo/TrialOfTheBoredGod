@@ -55,6 +55,8 @@ MonoBehaviour:
   myTexture: {fileID: 0}
   myRotation: 0
   layerName: Floor
+  xIndex: 0
+  yIndex: 0
 --- !u!212 &212809583902037990
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -33,7 +33,7 @@ public class Movement : MonoBehaviour {
         bool isWalking = false;
         bool transform = false;
 
-        GetComponent<SpriteRenderer>().sortingOrder = -1 * (int)(10* gameObject.transform.position.y);
+        //GetComponent<SpriteRenderer>().sortingOrder = -1 * (int)(10* gameObject.transform.position.y);
 
         if (Input.GetKeyDown(KeyCode.E))
             transform = true;
