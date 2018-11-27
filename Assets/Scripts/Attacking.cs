@@ -9,6 +9,9 @@ public class Attacking : MonoBehaviour
     float halfWidth;
     float halfHeight;
     public GameObject rotPoint;
+    public GameObject spear;
+
+    List<GameObject> enemies = new List<GameObject>();
 	// Use this for initialization
 	void Start ()
     {
@@ -17,6 +20,12 @@ public class Attacking : MonoBehaviour
         Debug.Log(camWidth + " " + camHeight);
         halfWidth = camWidth / 2.0f;
         halfHeight = camHeight / 2.0f;
+        GameObject[] tempEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject go in tempEnemies)
+        {
+            enemies.Add(go);
+        }
 	}
 	
 	// Update is called once per frame
@@ -59,5 +68,19 @@ public class Attacking : MonoBehaviour
         //Vector3 testVec = new Vector3(transform.up.x * Mathf.Cos(ang * Mathf.Deg2Rad), transform.up.y * Mathf.Sin(ang * Mathf.Deg2Rad), 0.0f);
         //Debug.Log(testVec);
         //Debug.Log(mouseWorldPos);
+
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if(true)
+                {
+
+                }
+            }
+        }
     }
+
+    
 }

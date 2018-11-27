@@ -6,16 +6,21 @@ public class Enemy : MonoBehaviour
 {
     bool canMove = false;
     GameObject player;
+
+    float xDir = .1f;
+
+    Rigidbody enemyRB;
 	// Use this for initialization
 	void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        enemyRB = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        Vector3 distance = player.transform.position - transform.position;
+        /*Vector3 distance = player.transform.position - transform.position;
 
         if(distance.magnitude < 1)
         {
@@ -25,5 +30,16 @@ public class Enemy : MonoBehaviour
             transform.position += transform.forward;
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         }
+        */
+        enemyRB.MovePosition(new Vector3(transform.position.x + xDir, transform.position.y, 0));
+
 	}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            xDir = -xDir;
+        }
+    }
 }
