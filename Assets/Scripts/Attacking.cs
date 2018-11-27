@@ -12,6 +12,7 @@ public class Attacking : MonoBehaviour
     public GameObject spear;
 
     List<GameObject> enemies = new List<GameObject>();
+    bool attacking = false;
 	// Use this for initialization
 	void Start ()
     {
@@ -72,15 +73,21 @@ public class Attacking : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if(true)
-                {
-
-                }
-            }
+            
         }
     }
 
-    
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("Is in");
+        if(attacking)
+        {
+            //for (int i = 0; i < enemies.Count; i++)
+            if(other.tag == "Enemy")
+            {
+                Debug.Log("Hit enemy");
+            }
+            attacking = false;
+        }
+    }
 }

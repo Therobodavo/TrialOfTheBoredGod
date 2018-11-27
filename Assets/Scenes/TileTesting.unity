@@ -363,6 +363,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62cbae4ea8fd6374bb973f41b3c85bd3, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1052429393 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1402149779097118, guid: d4a095fdd22939d44b0fc87b6fcd62f4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1218187440}
 --- !u!1001 &1218187440
 Prefab:
   m_ObjectHideFlags: 0
@@ -380,7 +385,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4068325070739836, guid: d4a095fdd22939d44b0fc87b6fcd62f4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.115658075
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4068325070739836, guid: d4a095fdd22939d44b0fc87b6fcd62f4, type: 2}
       propertyPath: m_LocalRotation.x
@@ -402,6 +407,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 65979889346049110, guid: d4a095fdd22939d44b0fc87b6fcd62f4,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65979889346049110, guid: d4a095fdd22939d44b0fc87b6fcd62f4,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114409644606783746, guid: d4a095fdd22939d44b0fc87b6fcd62f4,
+        type: 2}
+      propertyPath: spear
+      value: 
+      objectReference: {fileID: 1052429393}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a095fdd22939d44b0fc87b6fcd62f4, type: 2}
   m_IsPrefabAsset: 0
@@ -697,7 +717,7 @@ GameObject:
   - component: {fileID: 2127697400}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -708,7 +728,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2127697399}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd4ffe663d63ab24184a7eb74f8b91f8, type: 3}
   m_Name: 
@@ -789,7 +809,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2127697399}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.000166, y: 8.399304, z: 10.4609375}
+  m_LocalPosition: {x: 17.000166, y: 8.399304, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
