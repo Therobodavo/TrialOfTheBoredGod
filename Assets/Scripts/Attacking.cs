@@ -10,6 +10,7 @@ public class Attacking : MonoBehaviour
     float halfHeight;
     public GameObject rotPoint;
     public GameObject spear;
+    Spear spearScript;
 
     List<GameObject> enemies = new List<GameObject>();
     bool attacking = false;
@@ -22,7 +23,7 @@ public class Attacking : MonoBehaviour
         halfWidth = camWidth / 2.0f;
         halfHeight = camHeight / 2.0f;
         GameObject[] tempEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-
+        spearScript = spear.GetComponent<Spear>();
         foreach (GameObject go in tempEnemies)
         {
             enemies.Add(go);
@@ -73,21 +74,7 @@ public class Attacking : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        Debug.Log("Is in");
-        if(attacking)
-        {
-            //for (int i = 0; i < enemies.Count; i++)
-            if(other.tag == "Enemy")
-            {
-                Debug.Log("Hit enemy");
-            }
-            attacking = false;
+            spearScript.attacking = true;
         }
     }
 }
