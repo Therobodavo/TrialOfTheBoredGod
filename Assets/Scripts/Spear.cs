@@ -5,14 +5,21 @@ using UnityEngine;
 public class Spear : MonoBehaviour
 {
     public bool attacking = false;
+    public bool farAttack = false;
+    public GameObject longAttackObject;
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+	    if(farAttack)
+        {
+            longAttackObject.GetComponent<LongSpear>().longAttacking = true;
+            farAttack = false;
+        }
 	}
 
     private void OnTriggerStay(Collider other)

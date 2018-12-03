@@ -107,11 +107,16 @@ public class Attacking : MonoBehaviour
         }
         animator.SetBool("isShort", shortAtk);
         animator.SetBool("isLong", LongAtk);
-        if (currentState.IsName("ShortAtk") || currentState.IsName("LongAtk2"))
+        if (currentState.IsName("ShortAtk"))
         {
             spearScript.attacking = true;
         }
+        else if (currentState.IsName("LongAtk2"))
+            spearScript.farAttack = true;
         else
+        {
             spearScript.attacking = false;
+            spearScript.farAttack = false;
+        }
     }
 }
