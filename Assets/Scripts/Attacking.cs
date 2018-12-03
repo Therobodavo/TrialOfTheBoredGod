@@ -14,8 +14,14 @@ public class Attacking : MonoBehaviour
 
     List<GameObject> enemies = new List<GameObject>();
     bool attacking = false;
-	// Use this for initialization
-	void Start ()
+
+    bool shortAtk = false;
+    bool LongAtk = false;
+    float delayTimer = 0;
+    public Animator animator;
+
+    // Use this for initialization
+    void Start ()
     {
 		float camWidth = Camera.main.pixelWidth;
         float camHeight = Camera.main.pixelHeight;
@@ -71,10 +77,41 @@ public class Attacking : MonoBehaviour
         //Debug.Log(testVec);
         //Debug.Log(mouseWorldPos);
 
+        //  
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
 
-        if(Input.GetMouseButtonDown(0))
+        if (currentState.IsName("EndAction"))
+        {
+            shortAtk = false;
+            LongAtk = false;
+            Debug.Log("Merp");
+        }
+ 
+
+
+        if (delayTimer > 0)
+        {
+            delayTimer -= 1 * Time.deltaTime;
+        }
+        
+
+        if(Input.GetMouseButtonDown(0) && shortAtk == false && LongAtk == false)
+        {
+            shortAtk = true;
+         //   
+        }
+        if (Input.GetMouseButtonDown(1) && shortAtk == false && LongAtk == false)
+        {
+            LongAtk = true;
+
+        }
+        animator.SetBool("isShort", shortAtk);
+        animator.SetBool("isLong", LongAtk);
+        if (currentState.IsName("ShortAtk") || currentState.IsName("LongAtk2"))
         {
             spearScript.attacking = true;
         }
+        else
+            spearScript.attacking = false;
     }
 }
