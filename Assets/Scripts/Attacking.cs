@@ -88,18 +88,19 @@ public class Attacking : MonoBehaviour
         }
  
 
-
+        //Making it so the player can't attack constantly
         if (delayTimer > 0)
         {
             delayTimer -= 1 * Time.deltaTime;
         }
         
-
+        //If the left ouse click is pressed, do a short attack if not attacking
         if(Input.GetMouseButtonDown(0) && shortAtk == false && LongAtk == false)
         {
             shortAtk = true;
          //   
         }
+        //If the right mouse button is clicked, do a long range attack if not attacking
         if (Input.GetMouseButtonDown(1) && shortAtk == false && LongAtk == false)
         {
             LongAtk = true;
@@ -117,6 +118,7 @@ public class Attacking : MonoBehaviour
         {
             spearScript.attacking = false;
             spearScript.farAttack = false;
+            Debug.Log("Stopping attacks");
         }
     }
 }

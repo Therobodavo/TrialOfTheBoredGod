@@ -16,8 +16,9 @@ public class LongSpear : MonoBehaviour
                 //Debug.Log("Hit enemy");
                 Destroy(other.gameObject);
             }
-            longAttacking = false;
+            
         }
+        longAttacking = false;
     }
 
 }

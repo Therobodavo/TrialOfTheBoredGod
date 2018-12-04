@@ -15,16 +15,21 @@ public class Spear : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        //If a long attack is initiated, activate the 
 	    if(farAttack)
         {
             longAttackObject.GetComponent<LongSpear>().longAttacking = true;
             farAttack = false;
         }
+        //If not long attacking, send it to the object
+        else
+        {
+            longAttackObject.GetComponent<LongSpear>().longAttacking = false;
+        }
 	}
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Is in");
         if (attacking)
         {
             //for (int i = 0; i < enemies.Count; i++)
