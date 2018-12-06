@@ -6,15 +6,11 @@ public class Tile_Spikes : Tile {
 
 	private GameObject player;
 
-    public Sprite textureDown;
-    public Sprite textureUp;
 	// Use this for initialization
 	protected override void Start()
 	{
-        player = GameObject.FindGameObjectWithTag("Player");
-        base.Start();
-		
-
+		base.Start();
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 	// Update is called once per frame
@@ -25,7 +21,6 @@ public class Tile_Spikes : Tile {
 
 	protected override void Init()
 	{
-        myTexture = textureDown;
 		base.Init();
 	}
 
@@ -33,11 +28,10 @@ public class Tile_Spikes : Tile {
 	{
 		Init();
 	}
-	public void OnTriggerEnter(Collider collision)
+	public void OnCollisionEnter(Collision collision)
 	{
 		//trigger trap
 		player.transform.position = new Vector3(0,0,0);
-        myTexture = textureUp;
 	}
 
 }
