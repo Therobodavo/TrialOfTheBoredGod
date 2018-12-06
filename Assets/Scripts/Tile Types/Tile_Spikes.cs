@@ -28,7 +28,7 @@ public class Tile_Spikes : Tile {
 	{
 		Init();
 	}
-	public void OnCollisionEnter(Collision collision)
+	void OnTriggerEnter2D(Collider2D col)
 	{
 		//trigger trap
 		player.transform.position = new Vector3(0,0,0);
