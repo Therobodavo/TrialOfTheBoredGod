@@ -8,6 +8,7 @@ public class ButtonControls : MonoBehaviour {
   public  Animator animator1;
     public Animator animator2;
     public Animator animator3;
+    public Animator back;
     public bool startHide;
 
     // Use this for initialization
@@ -26,12 +27,16 @@ public class ButtonControls : MonoBehaviour {
         animator1.SetBool("isHide", true);
         animator2.SetBool("isHide", true);
         animator3.SetBool("isHide", true);
+        if(back !=null)
+       back.SetBool("isHide",false);
     }
     public void showButtons()
     {
         animator1.SetBool("isHide", false);
         animator2.SetBool("isHide", false);
         animator3.SetBool("isHide", false);
+        if (back != null)
+            back.SetBool("isHide", true);
     }
    
 }
