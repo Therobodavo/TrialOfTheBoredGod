@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
         {
             xDir = -xDir;
         }
-        */
+        */ 
     }
+   
 }

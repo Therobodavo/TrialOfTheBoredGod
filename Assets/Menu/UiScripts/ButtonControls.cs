@@ -8,10 +8,12 @@ public class ButtonControls : MonoBehaviour {
   public  Animator animator1;
     public Animator animator2;
     public Animator animator3;
+    public bool startHide;
 
     // Use this for initialization
     void Start () {
-		
+        if (startHide)
+            hideButtons();
 	}
 	
 	// Update is called once per frame
@@ -31,4 +33,5 @@ public class ButtonControls : MonoBehaviour {
         animator2.SetBool("isHide", false);
         animator3.SetBool("isHide", false);
     }
+   
 }

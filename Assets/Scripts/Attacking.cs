@@ -20,6 +20,7 @@ public class Attacking : MonoBehaviour
     float delayTimer = 0;
     public Animator animator;
 
+
     // Use this for initialization
     void Start ()
     {
@@ -62,63 +63,66 @@ public class Attacking : MonoBehaviour
 
         Debug.Log(ang);
         */
-
-        Vector3 mouseWorldPos = Input.mousePosition;
-
-        mouseWorldPos = new Vector3(mouseWorldPos.x - halfWidth, mouseWorldPos.y - halfHeight, 0.0f);
-
-        float ang = (Mathf.Atan2(mouseWorldPos.y, mouseWorldPos.x) * Mathf.Rad2Deg);
-
-        //Debug.Log(ang);
-
-        rotPoint.transform.rotation = Quaternion.Euler(0.0f, 0.0f, ang -90);
-
-        //Vector3 testVec = new Vector3(transform.up.x * Mathf.Cos(ang * Mathf.Deg2Rad), transform.up.y * Mathf.Sin(ang * Mathf.Deg2Rad), 0.0f);
-        //Debug.Log(testVec);
-        //Debug.Log(mouseWorldPos);
-
-        //  
-        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (currentState.IsName("EndAction"))
+        if (!gameObject.GetComponent<Move>().isDead)
         {
-            shortAtk = false;
-            LongAtk = false;
-            Debug.Log("Merp");
-        }
- 
+            Vector3 mouseWorldPos = Input.mousePosition;
 
-        //Making it so the player can't attack constantly
-        if (delayTimer > 0)
-        {
-            delayTimer -= 1 * Time.deltaTime;
-        }
-        
-        //If the left ouse click is pressed, do a short attack if not attacking
-        if(Input.GetMouseButtonDown(0) && shortAtk == false && LongAtk == false)
-        {
-            shortAtk = true;
-         //   
-        }
-        //If the right mouse button is clicked, do a long range attack if not attacking
-        if (Input.GetMouseButtonDown(1) && shortAtk == false && LongAtk == false)
-        {
-            LongAtk = true;
+            mouseWorldPos = new Vector3(mouseWorldPos.x - halfWidth, mouseWorldPos.y - halfHeight, 0.0f);
 
+            float ang = (Mathf.Atan2(mouseWorldPos.y, mouseWorldPos.x) * Mathf.Rad2Deg);
+
+            //Debug.Log(ang);
+
+            rotPoint.transform.rotation = Quaternion.Euler(0.0f, 0.0f, ang - 90);
+
+            //Vector3 testVec = new Vector3(transform.up.x * Mathf.Cos(ang * Mathf.Deg2Rad), transform.up.y * Mathf.Sin(ang * Mathf.Deg2Rad), 0.0f);
+            //Debug.Log(testVec);
+            //Debug.Log(mouseWorldPos);
+
+            //  
+            AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (currentState.IsName("EndAction"))
+            {
+                shortAtk = false;
+                LongAtk = false;
+                Debug.Log("Merp");
+            }
+
+
+            //Making it so the player can't attack constantly
+            if (delayTimer > 0)
+            {
+                delayTimer -= 1 * Time.deltaTime;
+            }
+
+            //If the left ouse click is pressed, do a short attack if not attacking
+            if (Input.GetMouseButtonDown(0) && shortAtk == false && LongAtk == false)
+            {
+                shortAtk = true;
+                //   
+            }
+            //If the right mouse button is clicked, do a long range attack if not attacking
+            if (Input.GetMouseButtonDown(1) && shortAtk == false && LongAtk == false)
+            {
+                LongAtk = true;
+
+            }
+            animator.SetBool("isShort", shortAtk);
+            animator.SetBool("isLong", LongAtk);
+            if (currentState.IsName("ShortAtk"))
+            {
+                spearScript.attacking = true;
+            }
+            else if (currentState.IsName("LongAtk2"))
+                spearScript.farAttack = true;
+            else
+            {
+                spearScript.attacking = false;
+                spearScript.farAttack = false;
+                Debug.Log("Stopping attacks");
+            }
         }
-        animator.SetBool("isShort", shortAtk);
-        animator.SetBool("isLong", LongAtk);
-        if (currentState.IsName("ShortAtk"))
-        {
-            spearScript.attacking = true;
-        }
-        else if (currentState.IsName("LongAtk2"))
-            spearScript.farAttack = true;
-        else
-        {
-            spearScript.attacking = false;
-            spearScript.farAttack = false;
-            Debug.Log("Stopping attacks");
-        }
+       
     }
 }
