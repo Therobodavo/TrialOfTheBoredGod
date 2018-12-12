@@ -6,19 +6,18 @@ public class LongSpear : MonoBehaviour
 {
     public bool longAttacking = false;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (longAttacking)
         {
             //for (int i = 0; i < enemies.Count; i++)
             if (other.tag == "Enemy")
             {
-                //Debug.Log("Hit enemy");
-                Destroy(other.gameObject);
+                other.GetComponent<Enemy>().damge(3, true);
             }
             
         }
         longAttacking = false;
     }
-
+   
 }

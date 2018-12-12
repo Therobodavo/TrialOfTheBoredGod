@@ -120,7 +120,7 @@ public class Attacking : MonoBehaviour
             {
                 spearScript.attacking = false;
                 spearScript.farAttack = false;
-                Debug.Log("Stopping attacks");
+            
             }
         }
        

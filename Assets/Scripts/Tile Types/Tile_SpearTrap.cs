@@ -69,7 +69,7 @@ public class Tile_SpearTrap : Tile
             Debug.Log("Initial contact");
         }
     }
-    private void OnTriggerStay2D(Collider collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (attack)
         {

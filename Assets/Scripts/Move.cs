@@ -54,6 +54,7 @@ public class Move : MonoBehaviour {
         {
             if (!canvas.activeSelf)
                 canvas.SetActive(true);
+ 
             animator.SetBool("isWalk", false);
             animator.SetBool("isDead", true);
             Manger.Instance.addData(killed);

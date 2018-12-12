@@ -28,15 +28,15 @@ public class Spear : MonoBehaviour
         }
 	}
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (attacking)
         {
             //for (int i = 0; i < enemies.Count; i++)
             if (other.tag == "Enemy")
             {
-                Debug.Log("Hit enemy");
-                Destroy(other.gameObject);
+                other.GetComponent<Enemy>().damge(1,false);
+        
             }
             attacking = false;
         }
