@@ -33,6 +33,7 @@ public class Tile_Spikes : Tile {
         //trigger trap
         //player.transform.position = new Vector3(0,0,0);
         player.GetComponent<Move>().isDead = true;
+        player.GetComponent<Move>().killed = "Spikes";
 	}
 
 }

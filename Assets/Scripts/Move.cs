@@ -6,7 +6,9 @@ public class Move : MonoBehaviour {
     Rigidbody2D rigidbody;
     Vector3 currentPos;
   public  Animator animator;
+    public GameObject canvas;
   public  bool isDead;
+    public string killed; //contains what killed player;
     // Use this for initialization
     void Start () {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -50,8 +52,15 @@ public class Move : MonoBehaviour {
         }
         else
         {
+            if (!canvas.activeSelf)
+                canvas.SetActive(true);
             animator.SetBool("isWalk", false);
             animator.SetBool("isDead", true);
+            Manger.Instance.addData(killed);
+            killed = null;
+
+            if (Input.GetKeyUp(KeyCode.R))
+                Manger.Instance.reloadScene();
         }
         
     }
