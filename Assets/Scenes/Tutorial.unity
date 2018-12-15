@@ -454,6 +454,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4407500764242580, guid: 767e47ca11153c34ba91ce46f9911668, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 767e47ca11153c34ba91ce46f9911668, type: 2}
   m_IsPrefabAsset: 0
@@ -561,8 +565,8 @@ GameObject:
   - component: {fileID: 839664444}
   - component: {fileID: 839664446}
   - component: {fileID: 839664445}
-  m_Layer: 0
-  m_Name: Tilemap (1)
+  m_Layer: 10
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39156,9 +39160,9 @@ GameObject:
   - component: {fileID: 919304326}
   - component: {fileID: 919304325}
   - component: {fileID: 919304324}
-  m_Layer: 0
-  m_Name: Tilemap
-  m_TagString: Untagged
+  m_Layer: 12
+  m_Name: Walls
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53479,7 +53483,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1374449131
 GameObject:
@@ -53599,7 +53603,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4166663100265648, guid: f81d58428cd0c5143a9d314af6c02d6f, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f81d58428cd0c5143a9d314af6c02d6f, type: 2}
