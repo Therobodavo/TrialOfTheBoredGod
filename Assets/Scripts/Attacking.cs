@@ -26,7 +26,6 @@ public class Attacking : MonoBehaviour
     {
 		float camWidth = Camera.main.pixelWidth;
         float camHeight = Camera.main.pixelHeight;
-        Debug.Log(camWidth + " " + camHeight);
         halfWidth = camWidth / 2.0f;
         halfHeight = camHeight / 2.0f;
         GameObject[] tempEnemies = GameObject.FindGameObjectsWithTag("Enemy");
