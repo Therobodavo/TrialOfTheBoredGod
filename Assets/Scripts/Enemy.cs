@@ -29,19 +29,29 @@ public class Enemy : MonoBehaviour
 	void Update ()
     {
 
-
+        //Getting the distance between the player and the object
        Vector3 dist = player.transform.position -transform.position;
+
+        //Getting the magnitude of the distance vector
         float distance = Mathf.Abs(dist.magnitude);
-        Debug.Log(distance);
+        //Debug.Log(distance);
+
+        //If the enemy is not currently alerted, and the player is close enough, alert the enemy
         if (!alerted && distance < 5)
             alerted = true;
+
+        //If the enemy is deleted,and the player leaves the detection range, stop alerting them
         if (alerted && distance > 10)
             alerted = false;
 
+        //If the enemy isn't stunned, and is moving, move it towards the player
         if (!stuned && alerted)
            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
 
+        //Decrementing the time left in invinicibility
         invicbility -= 1 * Time.deltaTime;
+
+        //If the invincibility timer has run out, change its color back to normal, and unstun it
         if (invicbility <= 0)
         {
             invicbility = 0;
@@ -50,7 +60,8 @@ public class Enemy : MonoBehaviour
             GetComponent<SpriteRenderer>().color = color;
             stuned = false;
 
-        }          
+        }        
+        //If it is still invincible, make it slightly transparent. 
         else
         {
             Color color = GetComponent<SpriteRenderer>().color;
@@ -58,12 +69,9 @@ public class Enemy : MonoBehaviour
             GetComponent<SpriteRenderer>().color = color;
         }
 
+        //If the enemy's health is below 0, destory it
         if (health <= 0)
             Destroy(gameObject);
-           
-        
-           
-
     }
 
     public void damge(int dam, bool stun)

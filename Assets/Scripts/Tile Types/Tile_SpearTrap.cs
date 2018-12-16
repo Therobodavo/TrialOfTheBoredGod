@@ -16,7 +16,7 @@ public class Tile_SpearTrap : Tile
 
     public GameObject player;
 
-    public float radius = 4.0f;
+    public float radius = .5f;
     // Use this for initialization
     protected override void Start()
     {
@@ -37,6 +37,24 @@ public class Tile_SpearTrap : Tile
             startTime += Time.deltaTime;
         }
 
+        if(hasStarted)
+        {
+            Color color = GetComponent<SpriteRenderer>().color;
+            color.a = .5f;
+            GetComponent<SpriteRenderer>().color = color;
+        }
+        else if(attack)
+        {
+            Color color = GetComponent<SpriteRenderer>().color;
+            color.a = .75f;
+            GetComponent<SpriteRenderer>().color = color;
+        }
+        else
+        {
+            Color color = GetComponent<SpriteRenderer>().color;
+            color.a = 1f;
+            GetComponent<SpriteRenderer>().color = color;
+        }
         //If the time is greater than the attack delay, and the object has started rearing back, begin attacking
         if( startTime >= attackDelay && hasStarted)
         {
@@ -59,9 +77,11 @@ public class Tile_SpearTrap : Tile
         //If attacking, check the distance between the player and the trap, killing the player if they're too close
         if(attack)
         {
-            if(Vector3.Distance(player.transform.position, transform.position) < radius)
+            Debug.Log(Vector3.Distance(player.transform.position, transform.position));
+            if (Vector3.Distance(player.transform.position, transform.position) < radius)
             {
                 player.GetComponent<Move>().isDead = true;
+                player.GetComponent<Move>().killed = "SpearTrap";
             }
         }
     }

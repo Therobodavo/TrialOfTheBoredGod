@@ -13,7 +13,7 @@ public class LongSpear : MonoBehaviour
             //for (int i = 0; i < enemies.Count; i++)
             if (other.tag == "Enemy")
             {
-                other.GetComponent<Enemy>().damge(3, true);
+                other.GetComponent<Enemy>().damge(100, true);
             }
             
         }
