@@ -8,7 +8,7 @@ public class LevelGeneration : MonoBehaviour {
     public List<Sprite> TileSprites; //0=floor,1=wall empty,2=wall one side,3=wallcorner,4=wall opposites,5=wall 3 sides, 6 = wall no sides, 7 = error texture, 8 = corner in singlem 9 = corner in double opposite, 10 = corner in double adjacent, 11 corner in triple, 12= corner in quad
 
     public int xSize, ySize;
-    public int tileSize = 64;
+    //public int tileSize = 64;
     private GameObject[,] tilemap;
     private int[,] intMap;
     /* A NOTE ABOUT HOW NEIGHBORS ARE CALCULATED, FOR TILE ~T~ THE ARRAY OF NEIGHBORS IS
@@ -38,7 +38,8 @@ public class LevelGeneration : MonoBehaviour {
         Randomize(intMap);
         //smooth the random map
         SmoothMap(1);
-        //connect all rooms
+        //check playable area
+
         //spawn textures
         SpawnTiles(); //creates the tiles and sets their textures
     }
