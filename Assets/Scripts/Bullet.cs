@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour {
 	}
     void OnTriggerEnter2D(Collider2D col)
 	{
-        Debug.Log("HIT " + col.name);
+        //Debug.Log("HIT " + col.name);
         if (col.gameObject == player)
         {
             player.GetComponent<Move>().isDead = true;

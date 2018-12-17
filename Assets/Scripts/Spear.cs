@@ -19,6 +19,7 @@ public class Spear : MonoBehaviour
 	    if(farAttack)
         {
             longAttackObject.GetComponent<LongSpear>().longAttacking = true;
+            attacking = true;
             farAttack = false;
         }
         //If not long attacking, send it to the object
@@ -35,7 +36,7 @@ public class Spear : MonoBehaviour
             //for (int i = 0; i < enemies.Count; i++)
             if (other.tag == "Enemy")
             {
-                other.GetComponent<Enemy>().damge(1,false);
+                other.GetComponent<Enemy>().damge(100,false);
         
             }
             attacking = false;

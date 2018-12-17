@@ -39,6 +39,7 @@ public class Manger : MonoBehaviour {
 
     public void addData(string newData)
     {
+        Debug.Log("Player killed by: " + newData);
         if(newData == "SpearTrap")
         {
             data[0] += 1;

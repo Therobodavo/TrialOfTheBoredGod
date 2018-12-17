@@ -33,7 +33,7 @@ public class Tile_Spikes : Tile {
         if (col.gameObject == player)
         {
             player.GetComponent<Move>().isDead = true;
-            player.GetComponent<Move>().killed = "Enemy";
+            player.GetComponent<Move>().killed = "Spikes";
         }
     }
 
