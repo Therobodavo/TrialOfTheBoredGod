@@ -35,6 +35,7 @@ public class Tile_Exit : Tile
             nextLevel = "Menu";
         if (col.gameObject == player)
         {
+            Manger.Instance.currentScene = nextLevel;
             SceneManager.LoadScene(nextLevel);
         }
        
