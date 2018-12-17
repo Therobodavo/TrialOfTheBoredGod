@@ -6,11 +6,19 @@ public class LevelGeneration : MonoBehaviour {
 
     public List<GameObject> TileTypes; // 0 =wall,1=floor
     public List<Sprite> TileSprites; //0=floor,1=wall empty,2=wall one side,3=wallcorner,4=wall opposites,5=wall 3 sides, 6 = wall no sides, 7 = error texture, 8 = corner in singlem 9 = corner in double opposite, 10 = corner in double adjacent, 11 corner in triple, 12= corner in quad
-
+    public GameObject player;
     public int xSize, ySize;
     //public int tileSize = 64;
     private GameObject[,] tilemap;
     private int[,] intMap;
+
+    public float percentRandomFill;
+    public float percentMinPlayable;
+    public float percentMaxPlayable;
+    public int smoothIterations;
+
+    private List<Vector2> playableArea;
+    private Vector2 seed;
     /* A NOTE ABOUT HOW NEIGHBORS ARE CALCULATED, FOR TILE ~T~ THE ARRAY OF NEIGHBORS IS
      * 0 | 1 | 2
      * 7 | T | 3
@@ -19,7 +27,10 @@ public class LevelGeneration : MonoBehaviour {
      */
 	// Use this for initialization
 	void Start () {
+        //create a background
+        FillBackground(xSize, ySize);
         GenerateTilemap(xSize,ySize);
+        //place some traps or something
 	}
 	
 	// Update is called once per frame
@@ -29,6 +40,7 @@ public class LevelGeneration : MonoBehaviour {
 
     void GenerateTilemap(int x, int y)
     {
+        playableArea = new List<Vector2>();
         //create some vars
         tilemap = new GameObject[x, y];
         intMap = new int[x, y];
@@ -36,12 +48,117 @@ public class LevelGeneration : MonoBehaviour {
         ySize = y;
         //create a random seed for the level
         Randomize(intMap);
-        //smooth the random map
-        SmoothMap(1);
-        //check playable area
 
+        //smooth the random map
+        SmoothMap(smoothIterations);
+
+        //check playable area
+        if (!CheckPlayableArea())
+        {           
+            RetryGeneration();
+        }
+
+        //move the player to the seed
+        player.transform.position = new Vector3(seed.x,seed.y,-1.0f);
         //spawn textures
         SpawnTiles(); //creates the tiles and sets their textures
+    }
+
+    void RetryGeneration()
+    {
+       // Debug.ClearDeveloperConsole();
+        Debug.Log("Retrying Generation...");
+        Randomize(intMap);
+        SmoothMap(smoothIterations);
+        if (!CheckPlayableArea())
+        {
+            RetryGeneration();
+        }
+    }
+
+    bool CheckPlayableArea()//returns true if generation resulted in too small of an area
+    {
+        int play = CreatePlayableList(playableArea);
+        float max = xSize * ySize;
+        float percentPlayable = play / max;
+        Debug.Log("Max Playable tiles: " + ((xSize - 2) * (ySize - 2)));
+        Debug.Log("Playable percent: " + percentPlayable);
+        if (percentPlayable > percentMinPlayable && percentPlayable < percentMaxPlayable)
+        {
+            Debug.Log("The percentage is good");
+            return true;
+        }
+        return false;
+    }
+
+    int CreatePlayableList(List<Vector2> playableList)
+    {
+        //get the seed
+        for(int y = 0; y < ySize; y++)
+        {
+            if (intMap[xSize / 2, y] == 0 && intMap[xSize / 2, y + 1] == 0)
+            {
+                seed = new Vector2(xSize / 2, y);
+                Debug.Log("Seed: " + seed);
+                break;
+            }
+        }
+
+        playableList = new List<Vector2>();
+        List<Vector2> toCheck = new List<Vector2>();
+        playableList.Add(seed);
+
+        foreach(Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)seed.x, (int)seed.y), seed))
+        {
+            toCheck.Add(element);
+        }
+
+        while(toCheck.Count > 0)
+        {
+            Vector2 temp = toCheck[0];
+            //get neighbors
+            //add neighbors to tocheck if not on it or playablelist
+            foreach (Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)temp.x, (int)temp.y), temp))
+            {
+                if (!ListContains(toCheck,element)&& !ListContains(playableList, element))
+                {
+                    toCheck.Add(element);
+                }
+
+            }
+            //add temp to playable list
+            playableList.Add(temp);
+            //remove temp from tocheck
+            toCheck.RemoveAt(0);
+        }
+        //flood fill the shit
+        Debug.Log("Playable tiles: " + playableList.Count);
+        return playableList.Count;
+    }
+
+    bool ListContains(List<Vector2> parent, Vector2 child)
+    {
+        foreach(Vector2 element in parent)
+        {
+            if(element.x == child.x)
+            {
+                if (element.y == child.y)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    List<Vector2> GetNeighborsToTileCoords(int[] neighbors,Vector2 at) //test this
+    {
+        List<Vector2> toRet = new List<Vector2>();
+        if(neighbors[1] == 0) { toRet.Add(new Vector2(at.x,at.y+1)); }
+        if(neighbors[3] == 0) { toRet.Add(new Vector2(at.x+1, at.y)); }
+        if(neighbors[5] == 0) { toRet.Add(new Vector2(at.x, at.y-1)); }
+        if(neighbors[7] == 0) { toRet.Add(new Vector2(at.x-1, at.y)); }
+        return toRet;
     }
 
     void Randomize(int[,] map) //fills a 2d array of ints with random values, serves as the seed of the generation
@@ -50,8 +167,8 @@ public class LevelGeneration : MonoBehaviour {
         {
             for (int y = 0; y < ySize; y++)
             {
-                int r = Random.Range(0, 10);
-                if (r > 5)
+                float r = Random.Range(0.0f, 1.0f);
+                if (r > percentRandomFill)
                 {
                     map[x, y] = 1;
                 }
@@ -432,5 +549,23 @@ public class LevelGeneration : MonoBehaviour {
         }
         neighbors[8] = total;
         return neighbors;
+    }
+
+    void FillBackground(int xS, int yS)
+    {
+        int offset = 30;
+        for (int x = 0; x < xS + offset * 2; x++)
+        {
+            for (int y = 0; y < yS + offset * 2; y++)
+            {
+                if (x - offset < 0 || x - offset >= xS|| y - offset < 0 || y - offset >= yS)
+                {
+                        GameObject temp = Instantiate(TileTypes[0], gameObject.transform);
+                        temp.transform.position = new Vector3(x - offset, y - offset, 0.1f);
+                        temp.GetComponent<Tile_Wall>().myTexture = TileSprites[1];
+                        temp.GetComponent<Tile_Wall>().RunInit();
+                }
+            }
+        }
     }
 }
