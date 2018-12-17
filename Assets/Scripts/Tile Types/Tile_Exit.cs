@@ -32,11 +32,15 @@ public class Tile_Exit : Tile
     void OnTriggerEnter2D(Collider2D col)
     {
         if (!tutorial)
-            nextLevel = "Menu";
+            nextLevel = "WinScreen";
         if (col.gameObject == player)
         {
             Manger.Instance.currentScene = nextLevel;
             SceneManager.LoadScene(nextLevel);
+            if (!tutorial)
+            {
+                Destroy(Manger.Instance);
+            }
         }
        
     }
