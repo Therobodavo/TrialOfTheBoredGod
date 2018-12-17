@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGeneration : MonoBehaviour {
+public class LevelGeneration : MonoBehaviour
+{
 
+    public GameObject enemyToSpawn;
     public List<GameObject> TileTypes; // 0 =wall,1=floor
     public List<Sprite> TileSprites; //0=floor,1=wall empty,2=wall one side,3=wallcorner,4=wall opposites,5=wall 3 sides, 6 = wall no sides, 7 = error texture, 8 = corner in singlem 9 = corner in double opposite, 10 = corner in double adjacent, 11 corner in triple, 12= corner in quad
     public GameObject player;
@@ -17,6 +19,8 @@ public class LevelGeneration : MonoBehaviour {
     public float percentMaxPlayable;
     public int smoothIterations;
 
+    public int numTraps;
+    public float[] trapData = new float[4];//0=spear,1=spike,2=turret,3=enemy
     private List<Vector2> playableArea;
     private Vector2 seed;
     /* A NOTE ABOUT HOW NEIGHBORS ARE CALCULATED, FOR TILE ~T~ THE ARRAY OF NEIGHBORS IS
@@ -25,18 +29,17 @@ public class LevelGeneration : MonoBehaviour {
      * 6 | 5 | 4
      * 8 = total number of neighbors (can be innaccurate, by overcounting ner edges of the map
      */
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         //create a background
         FillBackground(xSize, ySize);
-        GenerateTilemap(xSize,ySize);
+        GenerateTilemap(xSize, ySize);
         //place some traps or something
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        SetTrapData(2, 2, 3, 4);
+        SpawnTraps();
+        SpawnExit();
+    }
 
     void GenerateTilemap(int x, int y)
     {
@@ -54,19 +57,19 @@ public class LevelGeneration : MonoBehaviour {
 
         //check playable area
         if (!CheckPlayableArea())
-        {           
+        {
             RetryGeneration();
         }
 
         //move the player to the seed
-        player.transform.position = new Vector3(seed.x,seed.y,-1.0f);
+        player.transform.position = new Vector3(seed.x, seed.y, -1.0f);
         //spawn textures
         SpawnTiles(); //creates the tiles and sets their textures
     }
 
     void RetryGeneration()
     {
-       // Debug.ClearDeveloperConsole();
+        // Debug.ClearDeveloperConsole();
         Debug.Log("Retrying Generation...");
         Randomize(intMap);
         SmoothMap(smoothIterations);
@@ -94,7 +97,7 @@ public class LevelGeneration : MonoBehaviour {
     int CreatePlayableList(List<Vector2> playableList)
     {
         //get the seed
-        for(int y = 0; y < ySize; y++)
+        for (int y = 0; y < ySize; y++)
         {
             if (intMap[xSize / 2, y] == 0 && intMap[xSize / 2, y + 1] == 0)
             {
@@ -104,43 +107,43 @@ public class LevelGeneration : MonoBehaviour {
             }
         }
 
-        playableList = new List<Vector2>();
+        playableArea = new List<Vector2>();
         List<Vector2> toCheck = new List<Vector2>();
-        playableList.Add(seed);
+        playableArea.Add(seed);
 
-        foreach(Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)seed.x, (int)seed.y), seed))
+        foreach (Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)seed.x, (int)seed.y), seed))
         {
             toCheck.Add(element);
         }
 
-        while(toCheck.Count > 0)
+        while (toCheck.Count > 0)
         {
             Vector2 temp = toCheck[0];
             //get neighbors
             //add neighbors to tocheck if not on it or playablelist
             foreach (Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)temp.x, (int)temp.y), temp))
             {
-                if (!ListContains(toCheck,element)&& !ListContains(playableList, element))
+                if (!ListContains(toCheck, element) && !ListContains(playableArea, element))
                 {
                     toCheck.Add(element);
                 }
 
             }
             //add temp to playable list
-            playableList.Add(temp);
+            playableArea.Add(temp);
             //remove temp from tocheck
             toCheck.RemoveAt(0);
         }
         //flood fill the shit
-        Debug.Log("Playable tiles: " + playableList.Count);
-        return playableList.Count;
+        Debug.Log("Playable tiles: " + playableArea.Count);
+        return playableArea.Count;
     }
 
     bool ListContains(List<Vector2> parent, Vector2 child)
     {
-        foreach(Vector2 element in parent)
+        foreach (Vector2 element in parent)
         {
-            if(element.x == child.x)
+            if (element.x == child.x)
             {
                 if (element.y == child.y)
                 {
@@ -151,13 +154,13 @@ public class LevelGeneration : MonoBehaviour {
         return false;
     }
 
-    List<Vector2> GetNeighborsToTileCoords(int[] neighbors,Vector2 at) //test this
+    List<Vector2> GetNeighborsToTileCoords(int[] neighbors, Vector2 at) //test this
     {
         List<Vector2> toRet = new List<Vector2>();
-        if(neighbors[1] == 0) { toRet.Add(new Vector2(at.x,at.y+1)); }
-        if(neighbors[3] == 0) { toRet.Add(new Vector2(at.x+1, at.y)); }
-        if(neighbors[5] == 0) { toRet.Add(new Vector2(at.x, at.y-1)); }
-        if(neighbors[7] == 0) { toRet.Add(new Vector2(at.x-1, at.y)); }
+        if (neighbors[1] == 0) { toRet.Add(new Vector2(at.x, at.y + 1)); }
+        if (neighbors[3] == 0) { toRet.Add(new Vector2(at.x + 1, at.y)); }
+        if (neighbors[5] == 0) { toRet.Add(new Vector2(at.x, at.y - 1)); }
+        if (neighbors[7] == 0) { toRet.Add(new Vector2(at.x - 1, at.y)); }
         return toRet;
     }
 
@@ -178,7 +181,7 @@ public class LevelGeneration : MonoBehaviour {
                 }
             }
         }
-     }
+    }
 
     void SmoothMap(int itr) //smooths the map giving it its cavelike appearance
     {
@@ -197,11 +200,11 @@ public class LevelGeneration : MonoBehaviour {
                      * cardinal neighbors all solid become solid
                      * cardinal neighbors all empty become empty
                      */
-                     if(total >= 5)//5 or more solid, become solid
+                    if (total >= 5)//5 or more solid, become solid
                     {
                         intMap[x, y] = 1;
                     }
-                     if(total <= 3)//three or less solid, become empty
+                    if (total <= 3)//three or less solid, become empty
                     {
                         intMap[x, y] = 0;
                     }
@@ -260,7 +263,7 @@ public class LevelGeneration : MonoBehaviour {
                             case 1: //one neighbors is a wall so it should have 3 sides
                                 t1.myTexture = TileSprites[5];
                                 //decide the rotation
-                                if (neighbors[1] ==1) //north
+                                if (neighbors[1] == 1) //north
                                 {
                                     //none rotation
                                 }
@@ -360,7 +363,7 @@ public class LevelGeneration : MonoBehaviour {
                                     case 1: //triple corner in
                                         t1.myTexture = TileSprites[11];
                                         if (neighbors[0] == 1)
-                                        {                                     
+                                        {
                                             t1.myRotation = 270;
                                         }
                                         else if (neighbors[2] == 1)
@@ -373,7 +376,7 @@ public class LevelGeneration : MonoBehaviour {
                                             t1.myRotation = 90;
                                         }
                                         else if (neighbors[6] == 1)
-                                        {                                   
+                                        {
                                         }
                                         break;
                                     case 2:
@@ -417,23 +420,23 @@ public class LevelGeneration : MonoBehaviour {
                                         {
                                             t1.myTexture = TileSprites[7];
                                         }
-                                        
+
                                         break;
                                     case 3://corner single, rotation
                                         t1.myTexture = TileSprites[8];
-                                        if (neighbors[0] == 0) 
+                                        if (neighbors[0] == 0)
                                         {
                                             t1.myRotation = 180;
                                         }
-                                        else if (neighbors[2] == 0) 
+                                        else if (neighbors[2] == 0)
                                         {
                                             t1.myRotation = 90;
                                         }
-                                        else if (neighbors[4] == 0) 
+                                        else if (neighbors[4] == 0)
                                         {
                                             //no rotation
                                         }
-                                        else if (neighbors[6] == 0) 
+                                        else if (neighbors[6] == 0)
                                         {
                                             t1.myRotation = 270;
                                         }
@@ -462,7 +465,7 @@ public class LevelGeneration : MonoBehaviour {
 
 
     //returns an array of the neighbors of a tile and the total neighbors
-    int[] GetNeighbors(int x,int y)
+    int[] GetNeighbors(int x, int y)
     {
         int[] neighbors = new int[] { 0, 0, 0,
                                       0, 0, 0,
@@ -488,7 +491,7 @@ public class LevelGeneration : MonoBehaviour {
             total += 3;
         }
 
-        if (y+1 >= ySize)//if y+1 is greater than size
+        if (y + 1 >= ySize)//if y+1 is greater than size
         {
             yPos = false;
             neighbors[0] = 1;
@@ -497,7 +500,7 @@ public class LevelGeneration : MonoBehaviour {
             total += 3;
         }
 
-        if (x+1 >=  xSize)//if x+1 is greater than size
+        if (x + 1 >= xSize)//if x+1 is greater than size
         {
             xPos = false;
             neighbors[2] = 1;
@@ -558,14 +561,63 @@ public class LevelGeneration : MonoBehaviour {
         {
             for (int y = 0; y < yS + offset * 2; y++)
             {
-                if (x - offset < 0 || x - offset >= xS|| y - offset < 0 || y - offset >= yS)
+                if (x - offset < 0 || x - offset >= xS || y - offset < 0 || y - offset >= yS)
                 {
-                        GameObject temp = Instantiate(TileTypes[0], gameObject.transform);
-                        temp.transform.position = new Vector3(x - offset, y - offset, 0.1f);
-                        temp.GetComponent<Tile_Wall>().myTexture = TileSprites[1];
-                        temp.GetComponent<Tile_Wall>().RunInit();
+                    GameObject temp = Instantiate(TileTypes[0], gameObject.transform);
+                    temp.transform.position = new Vector3(x - offset, y - offset, 0.1f);
+                    temp.GetComponent<Tile_Wall>().myTexture = TileSprites[1];
+                    temp.GetComponent<Tile_Wall>().RunInit();
                 }
             }
         }
+    }
+
+    void SetTrapData(int spear, int spike, int turret, int enemy)//converts the number of deaths to a percentage of deaths stores it in TrapData
+    {
+        float totalDeaths = spear + spike + turret + enemy;
+        trapData[0] = spear / totalDeaths;
+        trapData[1] = spike / totalDeaths;
+        trapData[2] = turret / totalDeaths;
+        trapData[3] = enemy / totalDeaths;
+    }
+    void SpawnTraps()
+    {
+        for (int t = 0; t < numTraps; t++)
+        {
+            int index = Random.Range(0, playableArea.Count - 1);
+            Vector2 location = playableArea[index];
+            //Debug.Log("index"+index);
+            Debug.Log("count at trap spawn: "+playableArea.Count);
+            Debug.Log("index trap spawn: "+index);
+            float trap = Random.Range(0, 1.0f);
+            if (trap < trapData[0])//spawn a spear
+            {
+                GameObject temp = Instantiate(TileTypes[2], gameObject.transform);
+                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
+            }
+            else if (trap < trapData[0] + trapData[1])//spawn spikes
+            {
+                GameObject temp = Instantiate(TileTypes[3], gameObject.transform);
+                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
+            }
+            else if (trap < trapData[0] + trapData[1] + trapData[2])//spawn turret
+            {
+                GameObject temp = Instantiate(TileTypes[4], gameObject.transform);
+                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
+            }
+            else if (trap < trapData[0] + trapData[1] + trapData[2] + trapData[3])//spawn enemy
+            {
+                GameObject temp = Instantiate(TileTypes[5], gameObject.transform);
+                temp.GetComponent<Tile_SpawnEnemy>().enemy = Instantiate(enemyToSpawn, temp.transform);
+                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
+            }
+        }
+
+
+    }
+
+    void SpawnExit()
+    {
+
     }
 }

@@ -140,9 +140,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2779fa07449963844afd5b0a9d737236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyToSpawn: {fileID: 1305887029851658, guid: 99fb8580d67b2aa4f807481e13421633,
+    type: 2}
   TileTypes:
   - {fileID: 1425041253385240, guid: 9de0b0120d4c8694c96cc8417674b809, type: 2}
   - {fileID: 1537783677201410, guid: 62cbae4ea8fd6374bb973f41b3c85bd3, type: 2}
+  - {fileID: 1713454170135788, guid: f81d58428cd0c5143a9d314af6c02d6f, type: 2}
+  - {fileID: 1027746855667440, guid: af8ba17e8cc0b244799478c0ad70995b, type: 2}
+  - {fileID: 1166658618675412, guid: 767e47ca11153c34ba91ce46f9911668, type: 2}
+  - {fileID: 1591349616056388, guid: 3fe338c2193294741a39dfe92a7f7967, type: 2}
   TileSprites:
   - {fileID: 21300000, guid: 1784cb001afde7b43a2283eb2f91bc75, type: 3}
   - {fileID: 21300000, guid: 42110d1e70af4bb40bcddf894dc910e2, type: 3}
@@ -164,6 +170,12 @@ MonoBehaviour:
   percentMinPlayable: 0.5
   percentMaxPlayable: 0.7
   smoothIterations: 2
+  numTraps: 75
+  trapData:
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!4 &405289487
 Transform:
   m_ObjectHideFlags: 0
