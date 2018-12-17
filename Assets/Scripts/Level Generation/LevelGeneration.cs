@@ -568,6 +568,13 @@ public class LevelGeneration : MonoBehaviour
                     temp.GetComponent<Tile_Wall>().myTexture = TileSprites[1];
                     temp.GetComponent<Tile_Wall>().RunInit();
                 }
+                else
+                {
+                    GameObject temp = Instantiate(TileTypes[1], gameObject.transform);
+                    temp.transform.position = new Vector3(x - offset, y - offset, 0.1f);
+                    temp.GetComponent<Tile_Floor>().myTexture = TileSprites[0];
+                    temp.GetComponent<Tile_Floor>().RunInit();
+                }
             }
         }
     }
