@@ -207,7 +207,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScene: MainGame
-  data: []
+  data:
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!1001 &454822026
 Prefab:
   m_ObjectHideFlags: 0
