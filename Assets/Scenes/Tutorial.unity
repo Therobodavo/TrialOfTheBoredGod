@@ -67792,6 +67792,11 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 114746882952964792, guid: 480543e3fb891594aa12a61effa9f020,
+        type: 2}
+      propertyPath: m_Text
+      value: YOU'RE DEAD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 480543e3fb891594aa12a61effa9f020, type: 2}
   m_IsPrefabAsset: 0
