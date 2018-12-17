@@ -36,7 +36,8 @@ public class LevelGeneration : MonoBehaviour
         FillBackground(xSize, ySize);
         GenerateTilemap(xSize, ySize);
         //place some traps or something
-        SetTrapData(2, 2, 3, 4);
+        float[] td  = transform.GetComponent<Manger>().data;
+        SetTrapData((int)td[0], (int)td[1], (int)td[2], (int)td[3]);
         SpawnTraps();
         SpawnExit();
     }
@@ -582,6 +583,14 @@ public class LevelGeneration : MonoBehaviour
     void SetTrapData(int spear, int spike, int turret, int enemy)//converts the number of deaths to a percentage of deaths stores it in TrapData
     {
         float totalDeaths = spear + spike + turret + enemy;
+        if(totalDeaths == 0)
+        {
+            totalDeaths = 4;
+            spear = 1;
+            spike = 1;
+            turret = 1;
+            enemy = 1;
+        }
         trapData[0] = spear / totalDeaths;
         trapData[1] = spike / totalDeaths;
         trapData[2] = turret / totalDeaths;
