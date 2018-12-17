@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelGeneration : MonoBehaviour {
 
-    public GameObject enemyToSpawn;
     public List<GameObject> TileTypes; // 0 =wall,1=floor
     public List<Sprite> TileSprites; //0=floor,1=wall empty,2=wall one side,3=wallcorner,4=wall opposites,5=wall 3 sides, 6 = wall no sides, 7 = error texture, 8 = corner in singlem 9 = corner in double opposite, 10 = corner in double adjacent, 11 corner in triple, 12= corner in quad
     public GameObject player;
@@ -18,8 +17,6 @@ public class LevelGeneration : MonoBehaviour {
     public float percentMaxPlayable;
     public int smoothIterations;
 
-    public int numTraps;
-    public float[] trapData = new float[4];//0=spear,1=spike,2=turret,3=enemy
     private List<Vector2> playableArea;
     private Vector2 seed;
     /* A NOTE ABOUT HOW NEIGHBORS ARE CALCULATED, FOR TILE ~T~ THE ARRAY OF NEIGHBORS IS
@@ -34,9 +31,11 @@ public class LevelGeneration : MonoBehaviour {
         FillBackground(xSize, ySize);
         GenerateTilemap(xSize,ySize);
         //place some traps or something
-        SetTrapData(2,2,3,4);
-        SpawnTraps();
-        SpawnExit();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
 	}
 
     void GenerateTilemap(int x, int y)
@@ -105,9 +104,9 @@ public class LevelGeneration : MonoBehaviour {
             }
         }
 
-        playableArea = new List<Vector2>();
+        playableList = new List<Vector2>();
         List<Vector2> toCheck = new List<Vector2>();
-        playableArea.Add(seed);
+        playableList.Add(seed);
 
         foreach(Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)seed.x, (int)seed.y), seed))
         {
@@ -121,20 +120,20 @@ public class LevelGeneration : MonoBehaviour {
             //add neighbors to tocheck if not on it or playablelist
             foreach (Vector2 element in GetNeighborsToTileCoords(GetNeighbors((int)temp.x, (int)temp.y), temp))
             {
-                if (!ListContains(toCheck,element)&& !ListContains(playableArea, element))
+                if (!ListContains(toCheck,element)&& !ListContains(playableList, element))
                 {
                     toCheck.Add(element);
                 }
 
             }
             //add temp to playable list
-            playableArea.Add(temp);
+            playableList.Add(temp);
             //remove temp from tocheck
             toCheck.RemoveAt(0);
         }
         //flood fill the shit
-        Debug.Log("Playable tiles: " + playableArea.Count);
-        return playableArea.Count;
+        Debug.Log("Playable tiles: " + playableList.Count);
+        return playableList.Count;
     }
 
     bool ListContains(List<Vector2> parent, Vector2 child)
@@ -568,53 +567,5 @@ public class LevelGeneration : MonoBehaviour {
                 }
             }
         }
-    }
-
-    void SetTrapData(int spear, int spike, int turret, int enemy)//converts the number of deaths to a percentage of deaths stores it in TrapData
-    {
-        float totalDeaths = spear + spike + turret + enemy;
-        trapData[0] = spear / totalDeaths;
-        trapData[1] = spike / totalDeaths;
-        trapData[2] = turret / totalDeaths;
-        trapData[3] = enemy / totalDeaths;
-    }
-    void SpawnTraps()
-    {
-        for(int t = 0; t < numTraps; t++)
-        {
-            int index = Random.Range(0, playableArea.Count - 1);
-            Vector2 location = playableArea[index];
-            //Debug.Log("index"+index);
-            Debug.Log(location);
-            float trap = Random.Range(0, 1.0f);
-            if(trap< trapData[0])//spawn a spear
-            {
-                GameObject temp = Instantiate(TileTypes[2], gameObject.transform);
-                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
-            }
-            else if (trap < trapData[0] + trapData[1])//spawn spikes
-            {
-                GameObject temp = Instantiate(TileTypes[3], gameObject.transform);
-                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
-            }
-            else if (trap < trapData[0] + trapData[1]+trapData[2])//spawn turret
-            {
-                GameObject temp = Instantiate(TileTypes[4], gameObject.transform);
-                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
-            }
-            else if (trap < trapData[0] + trapData[1] + trapData[2] + trapData[3])//spawn enemy
-            {
-                GameObject temp = Instantiate(TileTypes[5], gameObject.transform);
-                temp.GetComponent<Tile_SpawnEnemy>().enemy = Instantiate(enemyToSpawn, temp.transform);
-                temp.transform.position = new Vector3(location.x, location.y, -0.01f);
-            }
-        }
-        
-
-    }
-
-    void SpawnExit()
-    {
-
     }
 }
