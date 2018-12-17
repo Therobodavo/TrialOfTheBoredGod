@@ -16,7 +16,7 @@ public class Tile_SpearTrap : Tile
 
     public GameObject player;
 
-    public float radius = .5f;
+    float radius = 3.0f;
     // Use this for initialization
     protected override void Start()
     {
@@ -77,11 +77,12 @@ public class Tile_SpearTrap : Tile
         //If attacking, check the distance between the player and the trap, killing the player if they're too close
         if(attack)
         {
-            Debug.Log(Vector3.Distance(player.transform.position, transform.position));
+            Debug.Log(Vector3.Distance(player.transform.position, transform.position) + " " + radius);
             if (Vector3.Distance(player.transform.position, transform.position) < radius)
             {
                 player.GetComponent<Move>().isDead = true;
                 player.GetComponent<Move>().killed = "SpearTrap";
+                Debug.Log("Should be dead");
             }
         }
     }
@@ -99,6 +100,15 @@ public class Tile_SpearTrap : Tile
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //If the trap has not started rearing back or not currently attacking, begin rearing back
+        if (hasStarted == false && attack == false)
+        {
+            hasStarted = true;
+            Debug.Log("Initial contact");
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         if (hasStarted == false && attack == false)
         {
             hasStarted = true;
