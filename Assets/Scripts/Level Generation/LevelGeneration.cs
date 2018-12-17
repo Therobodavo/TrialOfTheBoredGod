@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGeneration : MonoBehaviour
@@ -594,8 +593,8 @@ public class LevelGeneration : MonoBehaviour
             int index = Random.Range(0, playableArea.Count - 1);
             Vector2 location = playableArea[index];
             //Debug.Log("index"+index);
-            Debug.Log("count at trap spawn: "+playableArea.Count);
-            Debug.Log("index trap spawn: "+index);
+            //Debug.Log("count at trap spawn: "+playableArea.Count);
+            //Debug.Log("index trap spawn: "+index);
             float trap = Random.Range(0, 1.0f);
             if (trap < trapData[0])//spawn a spear
             {
@@ -625,6 +624,11 @@ public class LevelGeneration : MonoBehaviour
 
     void SpawnExit()
     {
-
+        int index = Random.Range(0, playableArea.Count - 1);
+        Vector2 location = playableArea[index];
+        GameObject temp = Instantiate(TileTypes[6], gameObject.transform);
+        temp.GetComponent<Tile_Exit>().tutorial = false;
+        temp.transform.position = new Vector3(location.x, location.y, -0.01f);
+        Debug.Log("exit is at: " + location);
     }
 }
