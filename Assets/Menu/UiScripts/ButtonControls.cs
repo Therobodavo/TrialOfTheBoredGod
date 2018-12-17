@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class ButtonControls : MonoBehaviour {
-
-  public  Animator animator1;
+    public string scene;
+    public  Animator animator1;
     public Animator animator2;
     public Animator animator3;
     public Animator back;
@@ -38,5 +39,8 @@ public class ButtonControls : MonoBehaviour {
         if (back != null)
             back.SetBool("isHide", true);
     }
-   
+   public void nextScene()
+    {
+        SceneManager.LoadScene(scene);
+    }
 }

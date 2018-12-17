@@ -533,6 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79deceae44306d34a8b0f41752af4be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 
   animator1: {fileID: 1262998212}
   animator2: {fileID: 1453495365}
   animator3: {fileID: 1662923154}
@@ -6442,7 +6443,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.15533954, y: 0.51237094}
   m_AnchorMax: {x: 0.78435856, y: 0.6403709}
-  m_AnchoredPosition: {x: 4.9999695, y: -2.4999924}
+  m_AnchoredPosition: {x: 4.999939, y: -2.4999924}
   m_SizeDelta: {x: 2.3700027, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1115929216
@@ -6779,7 +6780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.15533954, y: 0.51237094}
   m_AnchorMax: {x: 0.78435856, y: 0.6403709}
-  m_AnchoredPosition: {x: 4.9999847, y: -2.4999924}
+  m_AnchoredPosition: {x: 5, y: -2.4999924}
   m_SizeDelta: {x: 2.3700027, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1453495365
@@ -7344,7 +7345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.020000001}
   m_AnchorMin: {x: 0.14146484, y: 0.022208333}
   m_AnchorMax: {x: 0.8604649, y: 0.648}
-  m_AnchoredPosition: {x: -1.0000305, y: 93.999985}
+  m_AnchoredPosition: {x: -1.000061, y: 93.99997}
   m_SizeDelta: {x: -0.14990234, y: 4.4000244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1862750314
@@ -7358,6 +7359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79deceae44306d34a8b0f41752af4be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 
   animator1: {fileID: 528417276}
   animator2: {fileID: 1115929216}
   animator3: {fileID: 322089324}
@@ -7607,6 +7609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79deceae44306d34a8b0f41752af4be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: Tutorial
   animator1: {fileID: 2063407853}
   animator2: {fileID: 324231692}
   animator3: {fileID: 1113682092}
@@ -7742,7 +7745,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2036009869}
-        m_MethodName: hideButtons
+        m_MethodName: nextScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
