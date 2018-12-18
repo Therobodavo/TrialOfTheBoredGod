@@ -10,6 +10,7 @@ public class Move : MonoBehaviour {
     public  bool isDead;
     public string killed; //contains what killed player;
     bool finalDeath = false;
+    bool godMode = false;
     // Use this for initialization
     void Start () {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -53,22 +54,30 @@ public class Move : MonoBehaviour {
         }
         else
         {
-
-            if (!canvas.activeSelf)
-                canvas.SetActive(true);
- 
-            animator.SetBool("isWalk", false);
-            animator.SetBool("isDead", true);
-            if (finalDeath == false)
+            if (godMode == false)
             {
-                Manger.Instance.addData(killed);
-                killed = null;
-            }
+                if (!canvas.activeSelf)
+                    canvas.SetActive(true);
 
-            if (Input.GetKeyUp(KeyCode.R))
-                Manger.Instance.reloadScene();
-            finalDeath = true;
+                animator.SetBool("isWalk", false);
+                animator.SetBool("isDead", true);
+                if (finalDeath == false)
+                {
+                    Manger.Instance.addData(killed);
+                    killed = null;
+                }
+
+                if (Input.GetKeyUp(KeyCode.R))
+                    Manger.Instance.reloadScene();
+                finalDeath = true;
+            }
+            else
+                isDead = false;
         }
         
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            godMode = !godMode;
+        }
     }
 }
