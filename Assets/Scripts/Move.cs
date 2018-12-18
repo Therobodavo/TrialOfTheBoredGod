@@ -27,25 +27,25 @@ public class Move : MonoBehaviour {
             if (Input.GetKey(KeyCode.A))
             {
                 isWalking = true;
-                x = -0.08f;
+                x = -3.8f * Time.deltaTime;
 
             }
             if (Input.GetKey(KeyCode.D))
             {
                 isWalking = true;
-                x = 0.08f;
+                x = 3.8f * Time.deltaTime;
 
             }
             if (Input.GetKey(KeyCode.W))
             {
                 isWalking = true;
-                y = 0.08f;
+                y = 3.8f * Time.deltaTime;
 
             }
             if (Input.GetKey(KeyCode.S))
             {
                 isWalking = true;
-                y = -0.08f;
+                y = -3.8f * Time.deltaTime;
 
             }
             animator.SetBool("isWalk", isWalking);

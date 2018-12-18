@@ -127,7 +127,6 @@ GameObject:
   m_Component:
   - component: {fileID: 405289487}
   - component: {fileID: 405289486}
-  - component: {fileID: 405289488}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -155,6 +154,7 @@ MonoBehaviour:
   - {fileID: 1027746855667440, guid: af8ba17e8cc0b244799478c0ad70995b, type: 2}
   - {fileID: 1166658618675412, guid: 767e47ca11153c34ba91ce46f9911668, type: 2}
   - {fileID: 1591349616056388, guid: 3fe338c2193294741a39dfe92a7f7967, type: 2}
+  - {fileID: 1537783677201410, guid: ac11b85faa8e4d8469026445f92c98cc, type: 2}
   TileSprites:
   - {fileID: 21300000, guid: 1784cb001afde7b43a2283eb2f91bc75, type: 3}
   - {fileID: 21300000, guid: 42110d1e70af4bb40bcddf894dc910e2, type: 3}
@@ -195,19 +195,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &405289488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 405289485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdfef1173f51e2246babfe22a6d406e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentScene: MainGame
-  data: []
 --- !u!1001 &454822026
 Prefab:
   m_ObjectHideFlags: 0
