@@ -57,6 +57,8 @@ MonoBehaviour:
   layerName: 
   xIndex: 0
   yIndex: 0
+  attackDelay: 2
+  player: {fileID: 0}
 --- !u!212 &212497633572389980
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -92,7 +94,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 522b5f3bb83e45c4aa9f4a4e2921a4b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff22c9da2ea4cc04ca28d749dc62aa39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
