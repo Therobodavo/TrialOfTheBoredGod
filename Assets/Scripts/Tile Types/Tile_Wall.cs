@@ -24,4 +24,11 @@ public class Tile_Wall : Tile
     {
         Init();
     }
+    void OnTriggerEnter2D(Collider2D col)
+	{
+        if (col.gameObject.tag == "Bullet")
+        {
+            Destroy(col.transform.parent.gameObject);
+        }
+    }
 }

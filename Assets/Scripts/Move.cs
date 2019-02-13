@@ -11,11 +11,13 @@ public class Move : MonoBehaviour {
     public string killed; //contains what killed player;
     bool finalDeath = false;
     bool godMode = false;
+    Vector2 tempMove;
     // Use this for initialization
     void Start () {
         rigidbody = GetComponent<Rigidbody2D>();
         currentPos = gameObject.transform.position;
         isDead = false;
+        tempMove = new Vector2();
     }
 	
 	// Update is called once per frame
@@ -23,37 +25,49 @@ public class Move : MonoBehaviour {
         bool isWalking = false;
         if (!isDead)
         {
-            currentPos = gameObject.transform.position;
-            float x = 0; float y = 0;
             if (Input.GetKey(KeyCode.A))
             {
                 isWalking = true;
-                x = -3.8f * Time.deltaTime;
+                tempMove.x = -1f;
 
             }
-            if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D))
             {
                 isWalking = true;
-                x = 3.8f * Time.deltaTime;
+                tempMove.x = 1f;
 
             }
+            else
+            {
+                isWalking = false;
+                tempMove.x = 0f;
+            }
+
             if (Input.GetKey(KeyCode.W))
             {
                 isWalking = true;
-                y = 3.8f * Time.deltaTime;
+                 tempMove.y = 1f;
 
             }
-            if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(KeyCode.S))
             {
                 isWalking = true;
-                y = -3.8f * Time.deltaTime;
+                 tempMove.y = -1f;
 
             }
+            else
+            {
+                isWalking = false;
+                tempMove.y = 0f;
+            }
             animator.SetBool("isWalk", isWalking);
-            rigidbody.MovePosition(new Vector3(currentPos.x + x, currentPos.y + y, 0));
+            
         }
         else
         {
+            tempMove.x = 0;
+            tempMove.y = 0;
+            isWalking = false;
             if (godMode == false)
             {
                 if (!canvas.activeSelf)
@@ -79,5 +93,11 @@ public class Move : MonoBehaviour {
         {
             godMode = !godMode;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        currentPos = gameObject.transform.position;
+        rigidbody.MovePosition(new Vector2(currentPos.x,currentPos.y) + (new Vector2(tempMove.x,tempMove.y) * 3.8f * Time.deltaTime));
     }
 }

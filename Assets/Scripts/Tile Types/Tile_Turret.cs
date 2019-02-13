@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Tile_Turret : Tile
 {
+    //References
     private GameObject player;
     public GameObject bullet;
+
+    //Variables
     float lastShot = 0;
     float delay = 0.8f;
 
@@ -24,18 +27,18 @@ public class Tile_Turret : Tile
         //Get Vector between turret and player
         Vector3 dir = player.transform.position - this.transform.position;
         
-        //if distance between turret and player is greater than 8 units
+        //if distance between turret and player is less than 8 units
         if(dir.magnitude < 8f)
         {
-            //Ray2D ray = new Ray2D((this.transform.position + this.transform.up),dir);
-            //int layerMask = 1 << LayerMask.NameToLayer("Floor");
-            //layerMask = ~layerMask;
-            //RaycastHit2D hit = Physics2D.Raycast(ray.origin, dir, (int) dir.magnitude,layerMask);
-            //if(hit.collider != null)
+            //If the player is in direct sight with the turret
+            Ray2D ray = new Ray2D((this.transform.position + dir.normalized),dir);
+            int layerMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
+            layerMask = ~layerMask;
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, dir, (int) dir.magnitude,layerMask);
+            if(hit.collider != null)
             {   
-                //Debug.Log(hit.collider.tag);
-                //if(hit.collider.tag == "Player")
-                //{
+                if(hit.collider.tag == "Player")
+                {
                     //Get the angle from the turret to the player
                     float dirAngle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
                     this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, dirAngle - 90);
@@ -50,7 +53,7 @@ public class Tile_Turret : Tile
                         bullet.transform.GetChild(0).GetComponent<Bullet>().shooter = this.gameObject;
                         GameObject bul = Instantiate(bullet);
                     }
-                //}
+                }
             }
             
         }

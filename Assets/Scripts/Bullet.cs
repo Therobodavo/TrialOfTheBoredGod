@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
         if(Time.timeSinceLevelLoad - timeCreated >= timeAllowed)
         {
@@ -27,7 +27,8 @@ public class Bullet : MonoBehaviour {
 	}
     void OnTriggerEnter2D(Collider2D col)
 	{
-        //Debug.Log("HIT " + col.name);
+         Debug.Log(col.gameObject.name);
+             Debug.Log("bloop");
         if (col.gameObject == player)
         {
             player.GetComponent<Move>().isDead = true;
@@ -35,7 +36,23 @@ public class Bullet : MonoBehaviour {
         }
         else if(col.gameObject.tag == "Wall")
         {
-            Debug.Log("DESTROY THIS");
+           
+            Destroy(this.transform.parent.gameObject);
+        }
+    }
+    void OnCollisionEnter2D(Collision2D col)
+	{
+         Debug.Log(col.gameObject.name);
+             Debug.Log("bloop");
+        if (col.gameObject == player)
+        {
+            Destroy(this.transform.parent.gameObject);
+            player.GetComponent<Move>().isDead = true;
+            player.GetComponent<Move>().killed = "Turret";
+        }
+        else if(col.gameObject.tag == "Wall")
+        {
+           
             Destroy(this.transform.parent.gameObject);
         }
     }

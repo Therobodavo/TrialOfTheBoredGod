@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    //Variables
     bool canMove = false;
     GameObject player;
-
     public float speed;
-
     Rigidbody2D enemyRB;
     public float health;
     float invicbility;
@@ -86,11 +85,6 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        /*if(collision.gameObject.CompareTag("Wall"))
-        {
-            xDir = -xDir;
-        }
-        */
 
         if (col.gameObject == GameObject.FindGameObjectWithTag("Player") && invicbility <= 0)
         {
@@ -104,18 +98,3 @@ public class Enemy : MonoBehaviour
       
     }
 }
-//enemyRB.MovePosition(new Vector3(transform.position.x + xDir, transform.position.y, 0));
-
-/*Transform target = player.transform;
-Vector3 targetHeading = target.position - transform.position;
-Vector3 targetDirection = targetHeading.normalized;
-
-//rotate to look at the player
-
-transform.rotation = Quaternion.LookRotation(targetDirection); // Converts target direction vector to Quaternion
-transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-
-//move towards the player
-transform.position += transform.forward * speed * Time.deltaTime;
-//enemyRB.MovePosition(transform.forward * speed * Time.deltaTime);
-*/
